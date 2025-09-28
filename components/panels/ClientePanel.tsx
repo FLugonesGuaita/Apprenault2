@@ -1,41 +1,36 @@
 'use client';
 import React, { useState, useMemo, useEffect } from 'react';
-import type { Plan, ClientInput, RecommendationResult, SellerInfo, ClientDetails } from '../../types.ts';
-import { usePlans } from '../../contexts/PlanContext.tsx';
-import { useFinancialParams } from '../../contexts/FinancialContext.tsx';
-import { recommend } from '../../services/recommendationService.ts';
-import Card from '../common/Card.tsx';
-import Input from '../common/Input.tsx';
-import Select from '../common/Select.tsx';
-import Button from '../common/Button.tsx';
-import ResultsDisplay from '../results/ResultsDisplay.tsx';
-import { formatCurrency } from '../../utils/formatters.ts';
-import Alert from '../common/Alert.tsx';
+import { usePlans } from '../../contexts/PlanContext.jsx';
+import { useFinancialParams } from '../../contexts/FinancialContext.jsx';
+import { recommend } from '../../services/recommendationService.js';
+import Card from '../common/Card.jsx';
+import Input from '../common/Input.jsx';
+import Select from '../common/Select.jsx';
+import Button from '../common/Button.jsx';
+import ResultsDisplay from '../results/ResultsDisplay.jsx';
+import { formatCurrency } from '../../utils/formatters.js';
+import Alert from '../common/Alert.jsx';
 
-const defaultSellerInfo: SellerInfo = {
+const defaultSellerInfo = {
   name: 'Renault Lepic - Ventas Online',
   phone: '0810-888-5374',
   email: 'ventas@lepic.com.ar',
 };
 
-interface ClientePanelProps {
-  sellerInfo?: SellerInfo;
-  clientDetails?: ClientDetails;
-}
-
-const ClientePanel: React.FC<ClientePanelProps> = ({ sellerInfo = defaultSellerInfo, clientDetails }) => {
+// FIX: Made clientDetails optional with a default value to avoid errors when not provided.
+const ClientePanel = ({ sellerInfo = defaultSellerInfo, clientDetails = {} }) => {
   const { plans } = usePlans();
   const { params } = useFinancialParams();
   const activePlans = useMemo(() => plans.filter(p => p.activo), [plans]);
 
-  const [clientInput, setClientInput] = useState<ClientInput>({
+  const [clientInput, setClientInput] = useState({
     autoSolicitadoId: activePlans[0]?.id || '',
     capitalCliente: 0,
     cuotaObjetivo: 0,
   });
 
-  const [results, setResults] = useState<RecommendationResult | null>(null);
-  const [error, setError] = useState<string>('');
+  const [results, setResults] = useState(null);
+  const [error, setError] = useState('');
   
   useEffect(() => {
     // This effect runs only on the client after mount
@@ -46,7 +41,7 @@ const ClientePanel: React.FC<ClientePanelProps> = ({ sellerInfo = defaultSellerI
       const objetivo = searchParams.get('cuotaObjetivo');
 
       if (autoId && capital && objetivo && activePlans.some(p => p.id === autoId)) {
-        const newClientInput: ClientInput = {
+        const newClientInput = {
           autoSolicitadoId: autoId,
           capitalCliente: parseFloat(capital) || 0,
           cuotaObjetivo: parseFloat(objetivo) || 0,
@@ -66,7 +61,7 @@ const ClientePanel: React.FC<ClientePanelProps> = ({ sellerInfo = defaultSellerI
     return plans.find(p => p.id === clientInput.autoSolicitadoId);
   }, [clientInput.autoSolicitadoId, plans]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (e) => {
     const { id, value } = e.target;
     setClientInput(prev => ({ ...prev, [id]: id === 'autoSolicitadoId' ? value : parseFloat(value) || 0 }));
   };

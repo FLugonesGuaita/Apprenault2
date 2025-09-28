@@ -1,13 +1,8 @@
 import React from 'react';
-import Card from '../common/Card.tsx';
-import { formatCurrency } from '../../utils/formatters.ts';
-import type { PrendarioResult } from '../../types.ts';
+import Card from '../common/Card.jsx';
+import { formatCurrency } from '../../utils/formatters.js';
 
-interface PrendarioCardProps {
-  resultados: PrendarioResult[];
-}
-
-const PrendarioCard: React.FC<PrendarioCardProps> = ({ resultados }) => {
+const PrendarioCard = ({ resultados }) => {
   if (resultados.length === 0) return null;
   const { capitalPrestamo, tna } = resultados[0];
 

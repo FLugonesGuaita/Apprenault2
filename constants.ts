@@ -1,7 +1,4 @@
-
-import type { Plan, FinancialParams } from './types';
-
-export const INITIAL_PLANS: Plan[] = [
+export const INITIAL_PLANS = [
   {
     id: "plan-kwid-1",
     marca: "Renault",
@@ -40,7 +37,7 @@ export const INITIAL_PLANS: Plan[] = [
   }
 ];
 
-export const DEFAULT_FINANCIAL_PARAMS: FinancialParams = {
+export const DEFAULT_FINANCIAL_PARAMS = {
   margenConcesionario: 5,
   prendario: {
     tna: 58.0,

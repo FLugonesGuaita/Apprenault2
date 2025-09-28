@@ -1,12 +1,7 @@
 import React from 'react';
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  label: string;
-  id: string;
-  icon?: React.ReactNode;
-}
-
-const Input: React.FC<InputProps> = ({ label, id, icon, ...props }) => {
+// FIX: Made icon prop optional with a default null value to fix type errors.
+const Input = ({ label, id, icon = null, ...props }) => {
   return (
     <div>
       <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-1">

@@ -1,15 +1,13 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import type { Session } from '@supabase/supabase-js';
-import { supabase } from '../../lib/supabase/client.ts';
-import { RenaultLogo } from '../icons/RenaultLogo.tsx';
-import type { UserRole } from '../../types.ts';
-import LogoutButton from './LogoutButton.tsx';
-import { resolvePath } from '../../utils/path.ts';
+import { supabase } from '../../lib/supabase/client.js';
+import { RenaultLogo } from '../icons/RenaultLogo.jsx';
+import LogoutButton from './LogoutButton.jsx';
+import { resolvePath } from '../../utils/path.js';
 
 const Header = () => {
-  const [session, setSession] = useState<Session | null>(null);
+  const [session, setSession] = useState(null);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -23,9 +21,9 @@ const Header = () => {
     return () => subscription.unsubscribe();
   }, []);
   
-  const userRole = (session?.user?.user_metadata?.role as UserRole) || 'CLIENTE';
+  const userRole = session?.user?.user_metadata?.role || 'CLIENTE';
 
-  const navItems: { role: UserRole, label: string, href: string }[] = [
+  const navItems = [
     { role: 'CLIENTE', label: 'Cliente', href: resolvePath('/') },
   ];
 

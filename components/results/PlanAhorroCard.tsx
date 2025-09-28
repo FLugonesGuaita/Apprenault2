@@ -1,18 +1,10 @@
-
 import React from 'react';
-import Card from '../common/Card.tsx';
-import Badge from '../common/Badge.tsx';
-import Alert from '../common/Alert.tsx';
-import { formatCurrency } from '../../utils/formatters.ts';
-import type { PlanAhorroPresupuesto } from '../../types.ts';
+import Card from '../common/Card.jsx';
+import Badge from '../common/Badge.jsx';
+import Alert from '../common/Alert.jsx';
+import { formatCurrency } from '../../utils/formatters.js';
 
-interface PlanAhorroCardProps {
-  presupuesto: PlanAhorroPresupuesto;
-  title: string;
-  isFeatured?: boolean;
-}
-
-const PlanAhorroCard: React.FC<PlanAhorroCardProps> = ({ presupuesto, title, isFeatured = false }) => {
+const PlanAhorroCard = ({ presupuesto, title, isFeatured = false }) => {
   const { plan, cuotasCubiertas, cuotasRestantes, cuotaEstimada, capitalInsuficiente, detalle } = presupuesto;
 
   return (

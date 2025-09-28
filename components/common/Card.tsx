@@ -1,14 +1,6 @@
-
 import React from 'react';
 
-interface CardProps {
-  children: React.ReactNode;
-  className?: string;
-  title?: string;
-  isFeatured?: boolean;
-}
-
-const Card: React.FC<CardProps> = ({ children, className = '', title, isFeatured = false }) => {
+const Card = ({ children, className = '', title, isFeatured = false }) => {
   const borderClass = isFeatured ? 'border-renault-yellow border-2' : 'border-gray-200 border';
   return (
     <div className={`bg-white rounded-lg shadow-lg overflow-hidden ${borderClass} ${className}`}>

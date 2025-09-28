@@ -1,13 +1,8 @@
 import React from 'react';
-import Card from '../common/Card.tsx';
-import { formatCurrency } from '../../utils/formatters.ts';
-import type { UvaResult } from '../../types.ts';
+import Card from '../common/Card.jsx';
+import { formatCurrency } from '../../utils/formatters.js';
 
-interface UvaCardProps {
-  resultado: UvaResult;
-}
-
-const UvaCard: React.FC<UvaCardProps> = ({ resultado }) => {
+const UvaCard = ({ resultado }) => {
   const { capitalPrestamo, escenarios, plazo } = resultado;
 
   return (

@@ -1,16 +1,10 @@
-
 import React, { createContext, useContext } from 'react';
-import { useLocalStorage } from '../hooks/useLocalStorage.ts';
+import { useLocalStorage } from '../hooks/useLocalStorage.js';
 
-interface BrandingContextType {
-  logo: string | null;
-  setLogo: React.Dispatch<React.SetStateAction<string | null>>;
-}
+const BrandingContext = createContext(undefined);
 
-const BrandingContext = createContext<BrandingContextType | undefined>(undefined);
-
-export const BrandingProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [logo, setLogo] = useLocalStorage<string | null>('renault-logo', null);
+export const BrandingProvider = ({ children }) => {
+  const [logo, setLogo] = useLocalStorage('renault-logo', null);
 
   return (
     <BrandingContext.Provider value={{ logo, setLogo }}>

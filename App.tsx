@@ -1,20 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import type { Session } from '@supabase/supabase-js';
-import Header from './components/common/Header.tsx';
-import { FinancialProvider } from './contexts/FinancialContext.tsx';
-import { PlanProvider } from './contexts/PlanContext.tsx';
-import { BrandingProvider } from './contexts/BrandingContext.tsx';
-import ClientePanel from './components/panels/ClientePanel.tsx';
-import VendedorPanel from './components/panels/VendedorPanel.tsx';
-import AdminPanel from './components/panels/AdminPanel.tsx';
-import LoginPage from './components/auth/LoginPage.tsx';
-import AccessDenied from './components/common/AccessDenied.tsx';
-import { supabase } from './lib/supabase/client.ts';
-import type { UserRole } from './types.ts';
-import { getAppPath } from './utils/path.ts';
 
-const App: React.FC = () => {
-  const [session, setSession] = useState<Session | null>(null);
+import React, { useState, useEffect } from 'react';
+import Header from './components/common/Header.jsx';
+import { FinancialProvider } from './contexts/FinancialContext.jsx';
+import { PlanProvider } from './contexts/PlanContext.jsx';
+import { BrandingProvider } from './contexts/BrandingContext.jsx';
+import ClientePanel from './components/panels/ClientePanel.jsx';
+import VendedorPanel from './components/panels/VendedorPanel.jsx';
+import AdminPanel from './components/panels/AdminPanel.jsx';
+import LoginPage from './components/auth/LoginPage.jsx';
+import AccessDenied from './components/common/AccessDenied.jsx';
+import { supabase } from './lib/supabase/client.js';
+import { getAppPath } from './utils/path.js';
+
+const App = () => {
+  const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -44,7 +43,7 @@ const App: React.FC = () => {
     
     // Use getAppPath to handle running in subdirectories (like GitHub pages)
     const path = getAppPath(window.location.pathname);
-    const userRole = (session?.user?.user_metadata?.role as UserRole) || 'CLIENTE';
+    const userRole = session?.user?.user_metadata?.role || 'CLIENTE';
     
     switch (path) {
       case '/login':
@@ -61,7 +60,8 @@ const App: React.FC = () => {
         return <AccessDenied />;
       case '/':
       default:
-        return <ClientePanel />;
+        // FIX: Pass clientDetails prop to ClientePanel.
+        return <ClientePanel clientDetails={{}} />;
     }
   };
 

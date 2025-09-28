@@ -1,8 +1,8 @@
 import React from 'react';
-import Card from './Card.tsx';
-import { resolvePath } from '../../utils/path.ts';
+import Card from './Card.jsx';
+import { resolvePath } from '../../utils/path.js';
 
-const AccessDenied: React.FC = () => {
+const AccessDenied = () => {
   return (
     <div className="container mx-auto max-w-lg text-center">
       <Card title="Acceso Denegado">

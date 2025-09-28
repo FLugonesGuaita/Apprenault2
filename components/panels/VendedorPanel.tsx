@@ -1,30 +1,28 @@
-
 import React, { useState } from 'react';
-import ClientePanel from './ClientePanel.tsx';
-import Card from '../common/Card.tsx';
-import Input from '../common/Input.tsx';
-import type { SellerInfo, ClientDetails } from '../../types.ts';
-import { useLocalStorage } from '../../hooks/useLocalStorage.ts';
+import ClientePanel from './ClientePanel.jsx';
+import Card from '../common/Card.jsx';
+import Input from '../common/Input.jsx';
+import { useLocalStorage } from '../../hooks/useLocalStorage.js';
 
-const VendedorPanel: React.FC = () => {
-  const [sellerInfo, setSellerInfo] = useLocalStorage<SellerInfo>('renault-seller-info', {
+const VendedorPanel = () => {
+  const [sellerInfo, setSellerInfo] = useLocalStorage('renault-seller-info', {
     name: 'Juan Pérez',
     phone: '+54 9 11 1234-5678',
     email: 'juan.perez@renaultlepic.com',
   });
   
-  const [clientDetails, setClientDetails] = useState<ClientDetails>({
+  const [clientDetails, setClientDetails] = useState({
     name: '',
     phone: '',
     email: '',
   });
 
-  const handleSellerInfoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSellerInfoChange = (e) => {
     const { id, value } = e.target;
     setSellerInfo(prev => ({ ...prev, [id]: value }));
   };
   
-  const handleClientInfoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleClientInfoChange = (e) => {
     const { id, value } = e.target;
     setClientDetails(prev => ({ ...prev, [id]: value }));
   };

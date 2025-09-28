@@ -1,9 +1,9 @@
 'use client';
 
 import React from 'react';
-import { supabase } from '../../lib/supabase/client.ts';
-import Button from './Button.tsx';
-import { resolvePath } from '../../utils/path.ts';
+import { supabase } from '../../lib/supabase/client.js';
+import Button from './Button.jsx';
+import { resolvePath } from '../../utils/path.js';
 
 export default function LogoutButton() {
   const handleSignOut = async () => {

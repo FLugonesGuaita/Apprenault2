@@ -1,13 +1,10 @@
-
-import type { Plan, CapitalApplicationResult, FinancialParams } from '../types.ts';
-
 /**
  * Aplica el capital del cliente a una financiación directa de fábrica.
- * @param plan La financiación.
- * @param capital El capital disponible del cliente.
- * @returns Un objeto con el resultado de la aplicación del capital.
+ * @param {object} plan La financiación.
+ * @param {number} capital El capital disponible del cliente.
+ * @returns {{cubreCuotaExtra: boolean, capitalRemanente: number, cuotasCubiertas: number, cuotasRestantes: number, saldoPendienteInicial: number}} Un objeto con el resultado de la aplicación del capital.
  */
-export function aplicarCapital(plan: Plan, capital: number): CapitalApplicationResult {
+export function aplicarCapital(plan, capital) {
   let capitalRemanente = capital;
   let saldoPendienteInicial = 0;
   const cuotaExtra = plan.cuotaExtra || 0;
@@ -47,10 +44,10 @@ export function aplicarCapital(plan: Plan, capital: number): CapitalApplicationR
 
 /**
  * Calcula la cuota estimada a pagar por el cliente.
- * @param plan La financiación.
- * @returns El valor de la cuota estimada.
+ * @param {object} plan La financiación.
+ * @returns {number} El valor de la cuota estimada.
  */
-export function calcularCuotaEstimada(plan: Plan): number {
+export function calcularCuotaEstimada(plan) {
   // Según el requerimiento, la cuota estimada es el valor comercial
   // que corresponde a la "cuota 2 en adelante".
   // Este valor ya debería incluir gastos administrativos, seguros, etc.

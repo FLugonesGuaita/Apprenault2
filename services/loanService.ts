@@ -1,14 +1,11 @@
-
-import type { FinancialParams, PrendarioResult, UvaResult, UvaScenario } from '../types.ts';
-
 /**
  * Calcula la cuota de un préstamo usando el sistema francés.
- * @param capital Monto del préstamo.
- * @param tna Tasa Nominal Anual (ej. 58 para 58%).
- * @param plazo en meses.
- * @returns El valor de la cuota mensual.
+ * @param {number} capital Monto del préstamo.
+ * @param {number} tna Tasa Nominal Anual (ej. 58 para 58%).
+ * @param {number} plazo en meses.
+ * @returns {number} El valor de la cuota mensual.
  */
-function calcularCuotaFrances(capital: number, tna: number, plazo: number): number {
+function calcularCuotaFrances(capital, tna, plazo) {
   if (plazo <= 0 || capital <= 0) return 0;
   const i = tna / 100 / 12; // Tasa efectiva mensual
   if (i === 0) return capital / plazo;
@@ -18,11 +15,14 @@ function calcularCuotaFrances(capital: number, tna: number, plazo: number): numb
 
 /**
  * Genera alternativas de préstamo prendario.
+ * @param {number} capitalAfinanciar
+ * @param {object} params
+ * @returns {Array<object>}
  */
 export function simularPrendario(
-  capitalAfinanciar: number,
-  params: FinancialParams['prendario']
-): PrendarioResult[] {
+  capitalAfinanciar,
+  params
+) {
   return params.plazosPermitidos.map(plazo => ({
     plazo,
     tna: params.tna,
@@ -33,15 +33,18 @@ export function simularPrendario(
 
 /**
  * Genera escenarios para un crédito UVA.
+ * @param {number} capitalAfinanciar
+ * @param {object} params
+ * @returns {object}
  */
 export function simularUVA(
-  capitalAfinanciar: number,
-  params: FinancialParams['uva']
-): UvaResult {
+  capitalAfinanciar,
+  params
+) {
   const { coefUVAHoy, proyeccionInflacionMensual, spreadBanco, plazos } = params;
   const plazoSimulacion = plazos[0] || 60; // Usar el primer plazo disponible para la simulación
 
-  const calcularCuotaInicial = (capital: number, n: number, uva: number, spread: number): number => {
+  const calcularCuotaInicial = (capital, n, uva, spread) => {
     // Simplificación de la cuota UVA. En la realidad es más complejo.
     // Esto es (Capital en UVAs / Plazo) * Valor UVA Hoy
     const capitalEnUva = capital / uva;
@@ -49,8 +52,8 @@ export function simularUVA(
     return cuotaEnUva * uva * (1 + spread);
   };
 
-  const generarProyeccion = (cuotaInicial: number, inflacionMensual: number): {mes: number, cuota: number}[] => {
-      let proyeccion: {mes: number, cuota: number}[] = [{mes: 1, cuota: cuotaInicial}];
+  const generarProyeccion = (cuotaInicial, inflacionMensual) => {
+      let proyeccion = [{mes: 1, cuota: cuotaInicial}];
       let ultimaCuota = cuotaInicial;
       for (let i = 2; i <= 12; i++) { // Proyectar por 12 meses
           ultimaCuota *= (1 + inflacionMensual);
@@ -59,11 +62,11 @@ export function simularUVA(
       return proyeccion;
   };
 
-  const escenarios: UvaScenario[] = (Object.keys(proyeccionInflacionMensual) as Array<keyof typeof proyeccionInflacionMensual>).map(key => {
+  const escenarios = (Object.keys(proyeccionInflacionMensual)).map(key => {
     const spreadParaEscenario = spreadBanco[key];
     const cuotaInicial = calcularCuotaInicial(capitalAfinanciar, plazoSimulacion, coefUVAHoy, spreadParaEscenario);
     return {
-      tipo: key.charAt(0).toUpperCase() + key.slice(1) as UvaScenario['tipo'],
+      tipo: key.charAt(0).toUpperCase() + key.slice(1),
       cuotaInicial: cuotaInicial,
       proyeccion: generarProyeccion(cuotaInicial, proyeccionInflacionMensual[key])
     };

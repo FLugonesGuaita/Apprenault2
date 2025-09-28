@@ -1,18 +1,11 @@
-
 import React, { createContext, useContext } from 'react';
-import type { FinancialParams } from '../types.ts';
-import { useLocalStorage } from '../hooks/useLocalStorage.ts';
-import { DEFAULT_FINANCIAL_PARAMS } from '../constants.ts';
+import { useLocalStorage } from '../hooks/useLocalStorage.js';
+import { DEFAULT_FINANCIAL_PARAMS } from '../constants.js';
 
-interface FinancialContextType {
-  params: FinancialParams;
-  setParams: React.Dispatch<React.SetStateAction<FinancialParams>>;
-}
+const FinancialContext = createContext(undefined);
 
-const FinancialContext = createContext<FinancialContextType | undefined>(undefined);
-
-export const FinancialProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [params, setParams] = useLocalStorage<FinancialParams>('renault-financial-params', DEFAULT_FINANCIAL_PARAMS);
+export const FinancialProvider = ({ children }) => {
+  const [params, setParams] = useLocalStorage('renault-financial-params', DEFAULT_FINANCIAL_PARAMS);
 
   return (
     <FinancialContext.Provider value={{ params, setParams }}>

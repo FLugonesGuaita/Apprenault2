@@ -1,12 +1,6 @@
-
 import React from 'react';
 
-interface BadgeProps {
-  children: React.ReactNode;
-  color?: 'yellow' | 'gray' | 'green';
-}
-
-const Badge: React.FC<BadgeProps> = ({ children, color = 'yellow' }) => {
+const Badge = ({ children, color = 'yellow' }) => {
   const colorClasses = {
     yellow: 'bg-yellow-100 text-yellow-800',
     gray: 'bg-gray-100 text-gray-800',

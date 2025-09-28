@@ -1,12 +1,14 @@
-
-import type { Plan, ClientInput, FinancialParams, RecommendationResult, PlanAhorroPresupuesto } from '../types.ts';
-import { aplicarCapital, calcularCuotaEstimada } from './calculationService.ts';
-import { simularPrendario, simularUVA } from './loanService.ts';
+import { aplicarCapital, calcularCuotaEstimada } from './calculationService.js';
+import { simularPrendario, simularUVA } from './loanService.js';
 
 /**
  * Genera un presupuesto detallado para una financiación directa de fábrica.
+ * @param {object} plan
+ * @param {number} capitalCliente
+ * @param {object} params
+ * @returns {object}
  */
-function generarPresupuestoAhorro(plan: Plan, capitalCliente: number, params: FinancialParams): PlanAhorroPresupuesto {
+function generarPresupuestoAhorro(plan, capitalCliente, params) {
   const { cuotasCubiertas, cuotasRestantes } = aplicarCapital(plan, capitalCliente);
   const cuotaEstimada = calcularCuotaEstimada(plan);
   const capitalInsuficiente = capitalCliente < plan.integracionMin;
@@ -26,12 +28,16 @@ function generarPresupuestoAhorro(plan: Plan, capitalCliente: number, params: Fi
 
 /**
  * Recomienda el mejor plan y alternativas de financiamiento basado en la entrada del cliente.
+ * @param {object} input
+ * @param {Array<object>} planesDisponibles
+ * @param {object} params
+ * @returns {object}
  */
 export function recommend(
-  input: ClientInput,
-  planesDisponibles: Plan[],
-  params: FinancialParams
-): RecommendationResult {
+  input,
+  planesDisponibles,
+  params
+) {
   const { autoSolicitadoId, capitalCliente, cuotaObjetivo } = input;
   const { margenConcesionario, recomendador } = params;
   
@@ -49,7 +55,7 @@ export function recommend(
   const presupuestoSolicitado = generarPresupuestoAhorro(planSolicitadoSeleccionado, capitalCliente, params);
 
   // 2. Buscar el mejor plan basado en la estrategia definida por el administrador.
-  let mejorPlan: PlanAhorroPresupuesto | undefined;
+  let mejorPlan;
 
   if (recomendador.estrategia === 'PLAN_SOLICITADO') {
     // Estrategia "Genérica": El mejor plan es el que el cliente solicitó.

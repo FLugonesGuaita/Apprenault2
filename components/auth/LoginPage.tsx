@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
-import { supabase } from '../../lib/supabase/client.ts';
-import Card from '../common/Card.tsx';
-import Input from '../common/Input.tsx';
-import Button from '../common/Button.tsx';
-import Alert from '../common/Alert.tsx';
-import { resolvePath } from '../../utils/path.ts';
+import { supabase } from '../../lib/supabase/client.js';
+import Card from '../common/Card.jsx';
+import Input from '../common/Input.jsx';
+import Button from '../common/Button.jsx';
+import Alert from '../common/Alert.jsx';
+import { resolvePath } from '../../utils/path.js';
 
-const LoginPage: React.FC = () => {
+const LoginPage = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [message, setMessage] = useState<string | null>(null);
+  const [error, setError] = useState(null);
+  const [message, setMessage] = useState(null);
 
-  const handleAuth = async (e: React.FormEvent) => {
+  const handleAuth = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
@@ -42,7 +42,7 @@ const LoginPage: React.FC = () => {
            setMessage('¡Registro exitoso! Por favor, revisa tu correo electrónico para verificar tu cuenta.');
         }
       }
-    } catch (err: any) {
+    } catch (err) {
       setError(err.error_description || err.message);
     } finally {
       setLoading(false);

@@ -1,25 +1,17 @@
 'use client';
 import React, { useState } from 'react';
-import type { RecommendationResult, ClientInput, SellerInfo, ClientDetails, PrendarioResult } from '../../types.ts';
-import PlanAhorroCard from './PlanAhorroCard.tsx';
-import PrendarioCard from './PrendarioCard.tsx';
-import UvaCard from './UvaCard.tsx';
-import Button from '../common/Button.tsx';
-import { useBranding } from '../../contexts/BrandingContext.tsx';
-import { WhatsAppIcon } from '../icons/WhatsAppIcon.tsx';
-import Alert from '../common/Alert.tsx';
+import PlanAhorroCard from './PlanAhorroCard.jsx';
+import PrendarioCard from './PrendarioCard.jsx';
+import UvaCard from './UvaCard.jsx';
+import Button from '../common/Button.jsx';
+import { useBranding } from '../../contexts/BrandingContext.jsx';
+import { WhatsAppIcon } from '../icons/WhatsAppIcon.jsx';
+import Alert from '../common/Alert.jsx';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import { formatCurrency } from '../../utils/formatters.ts';
+import { formatCurrency } from '../../utils/formatters.js';
 
-interface ResultsDisplayProps {
-  results: RecommendationResult;
-  clientInput: ClientInput;
-  sellerInfo?: SellerInfo;
-  clientDetails?: ClientDetails;
-}
-
-const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results, clientInput, sellerInfo, clientDetails }) => {
+const ResultsDisplay = ({ results, clientInput, sellerInfo, clientDetails }) => {
   const { mejorPlan, planSolicitado, alternativasPrendario, alternativasUVA } = results;
   const { logo } = useBranding();
   const [isSharing, setIsSharing] = useState(false);
@@ -28,7 +20,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results, clientInput, s
   const showPlanSolicitado = planSolicitado && (!mejorPlan || mejorPlan.plan.id !== planSolicitado.plan.id);
   const showMejorPlanAlternativo = mejorPlan && planSolicitado && mejorPlan.plan.id !== planSolicitado.plan.id;
 
-  const generatePDFDoc = (prendarioResults: PrendarioResult[]): jsPDF | null => {
+  const generatePDFDoc = (prendarioResults) => {
     // PDF Generation logic remains largely the same, but now uses imported jsPDF
     const budgetToPrint = planSolicitado;
     if (!budgetToPrint) return null;

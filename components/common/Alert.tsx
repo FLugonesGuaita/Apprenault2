@@ -1,12 +1,6 @@
-
 import React from 'react';
 
-interface AlertProps {
-  message: string;
-  type?: 'warning' | 'info' | 'success';
-}
-
-const Alert: React.FC<AlertProps> = ({ message, type = 'warning' }) => {
+const Alert = ({ message, type = 'warning' }) => {
   const colorClasses = {
     warning: 'bg-yellow-100 border-yellow-400 text-yellow-700',
     info: 'bg-blue-100 border-blue-400 text-blue-700',

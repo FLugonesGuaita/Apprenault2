@@ -4,7 +4,7 @@
  * Para desarrollo local o dominios personalizados, será una cadena vacía.
  * @returns {string} La ruta base.
  */
-const getBasePath = (): string => {
+const getBasePath = () => {
   // En un entorno de prueba o si no hay window, devuelve una ruta raíz.
   if (typeof window === 'undefined') return '';
 
@@ -29,7 +29,7 @@ export const BASE_PATH = getBasePath();
  * @param {string} path - La ruta relativa de la aplicación (ej. '/vendedor').
  * @returns {string} La ruta completa incluyendo la ruta base (ej. '/repo-name/vendedor').
  */
-export const resolvePath = (path: string): string => {
+export const resolvePath = (path) => {
   const cleanPath = path.startsWith('/') ? path : `/${path}`;
   if (BASE_PATH === '') {
     return cleanPath;
@@ -42,7 +42,7 @@ export const resolvePath = (path: string): string => {
  * @param {string} fullPath - La ruta completa desde window.location.pathname.
  * @returns {string} La ruta relativa de la aplicación (ej. '/vendedor').
  */
-export const getAppPath = (fullPath: string): string => {
+export const getAppPath = (fullPath) => {
   if (BASE_PATH && fullPath.startsWith(BASE_PATH)) {
     const appPath = fullPath.substring(BASE_PATH.length);
     // Devuelve '/' si el resultado es una cadena vacía (es la raíz de la app)

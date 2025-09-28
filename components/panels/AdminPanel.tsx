@@ -1,16 +1,14 @@
+import React, { useState, useReducer, Fragment } from 'react';
+import Card from '../common/Card.jsx';
+import Button from '../common/Button.jsx';
+import Input from '../common/Input.jsx';
+import { usePlans } from '../../contexts/PlanContext.jsx';
+import { useFinancialParams } from '../../contexts/FinancialContext.jsx';
+import { useBranding } from '../../contexts/BrandingContext.jsx';
+import { formatCurrency } from '../../utils/formatters.js';
+import Badge from '../common/Badge.jsx';
 
-import React, { useState, useReducer, ChangeEvent, Fragment } from 'react';
-import Card from '../common/Card.tsx';
-import Button from '../common/Button.tsx';
-import Input from '../common/Input.tsx';
-import { usePlans } from '../../contexts/PlanContext.tsx';
-import { useFinancialParams } from '../../contexts/FinancialContext.tsx';
-import { useBranding } from '../../contexts/BrandingContext.tsx';
-import type { FinancialParams, Plan } from '../../types.ts';
-import { formatCurrency } from '../../utils/formatters.ts';
-import Badge from '../common/Badge.tsx';
-
-const initialPlanState: Omit<Plan, 'id' | 'activo' | 'marca'> = {
+const initialPlanState = {
   modelo: '',
   codigo: '',
   precioLista: 0,
@@ -27,9 +25,7 @@ const initialPlanState: Omit<Plan, 'id' | 'activo' | 'marca'> = {
   imageUrl: '',
 };
 
-type PlanAction = { type: 'UPDATE_FIELD'; field: keyof typeof initialPlanState; value: any } | { type: 'RESET' };
-
-function planReducer(state: Omit<Plan, 'id' | 'activo' | 'marca'>, action: PlanAction) {
+function planReducer(state, action) {
   switch (action.type) {
     case 'UPDATE_FIELD':
       return { ...state, [action.field]: action.value };
@@ -40,25 +36,21 @@ function planReducer(state: Omit<Plan, 'id' | 'activo' | 'marca'>, action: PlanA
   }
 }
 
-const AdminPanel: React.FC = () => {
+const AdminPanel = () => {
   const { plans, addPlan, updatePlan, togglePlanStatus } = usePlans();
   const { params, setParams } = useFinancialParams();
   const { logo, setLogo } = useBranding();
-  const [editingPlanId, setEditingPlanId] = useState<string | null>(null);
-  const [expandedPlanId, setExpandedPlanId] = useState<string | null>(null);
+  const [editingPlanId, setEditingPlanId] = useState(null);
+  const [expandedPlanId, setExpandedPlanId] = useState(null);
   const [planState, dispatch] = useReducer(planReducer, initialPlanState);
 
-  const handleParamChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>, ...path: (string | number)[]) => {
-    // FIX: Property 'checked' does not exist on type 'HTMLSelectElement'.
-    // Destructuring 'checked' from e.target is unsafe. This implementation
-    // safely determines the value based on the element's type.
+  const handleParamChange = (e, ...path) => {
     const { value, type } = e.target;
-    const val = type === 'checkbox' ? (e.target as HTMLInputElement).checked : type === 'number' ? parseFloat(value) || 0 : value;
+    const val = type === 'checkbox' ? e.target.checked : type === 'number' ? parseFloat(value) || 0 : value;
 
     setParams(prev => {
         let newParams = JSON.parse(JSON.stringify(prev));
-        // FIX: Add 'any' type to 'current' to allow dynamic property access while traversing the object path.
-        let current: any = newParams;
+        let current = newParams;
         for (let i = 0; i < path.length - 1; i++) {
             current = current[path[i]];
         }
@@ -67,16 +59,16 @@ const AdminPanel: React.FC = () => {
     });
   };
 
-  const handlePlanFieldChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handlePlanFieldChange = (e) => {
     const { name, value, type } = e.target;
     dispatch({
       type: 'UPDATE_FIELD',
-      field: name as keyof typeof initialPlanState,
+      field: name,
       value: type === 'number' ? parseFloat(value) || 0 : value,
     });
   };
 
-  const handlePlanImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePlanImageUpload = (event) => {
     const file = event.target.files?.[0];
     if (!file) {
       dispatch({ type: 'UPDATE_FIELD', field: 'imageUrl', value: '' });
@@ -93,14 +85,14 @@ const AdminPanel: React.FC = () => {
       dispatch({
         type: 'UPDATE_FIELD',
         field: 'imageUrl',
-        value: reader.result as string,
+        value: reader.result,
       });
     };
     reader.readAsDataURL(file);
   };
 
   const handleSavePlan = () => {
-    const planData = { ...planState, marca: 'Renault' as const };
+    const planData = { ...planState, marca: 'Renault' };
     if (editingPlanId) {
       updatePlan({ ...planData, id: editingPlanId, activo: plans.find(p => p.id === editingPlanId)?.activo ?? true });
     } else {
@@ -110,10 +102,9 @@ const AdminPanel: React.FC = () => {
     dispatch({ type: 'RESET' });
   };
   
-  const handleEditPlan = (plan: Plan) => {
+  const handleEditPlan = (plan) => {
     setEditingPlanId(plan.id);
-    Object.keys(initialPlanState).forEach(keyStr => {
-      const key = keyStr as keyof typeof initialPlanState;
+    Object.keys(initialPlanState).forEach(key => {
       dispatch({ type: 'UPDATE_FIELD', field: key, value: plan[key] || initialPlanState[key] });
     });
   };
@@ -123,7 +114,7 @@ const AdminPanel: React.FC = () => {
     dispatch({ type: 'RESET' });
   };
 
-  const handleLogoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleLogoUpload = (event) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
@@ -134,7 +125,7 @@ const AdminPanel: React.FC = () => {
 
     const reader = new FileReader();
     reader.onloadend = () => {
-      setLogo(reader.result as string);
+      setLogo(reader.result);
     };
     reader.readAsDataURL(file);
   };
@@ -182,8 +173,8 @@ const AdminPanel: React.FC = () => {
               label={key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')}
               id={key}
               name={key}
-              type={typeof initialPlanState[key as keyof typeof initialPlanState] === 'number' ? 'number' : 'text'}
-              value={planState[key as keyof typeof initialPlanState] as any}
+              type={typeof initialPlanState[key] === 'number' ? 'number' : 'text'}
+              value={planState[key]}
               onChange={handlePlanFieldChange}
             />
           ))}
