@@ -1,4 +1,4 @@
-
+'use client';
 import React, { useState, useMemo, useEffect } from 'react';
 import type { Plan, ClientInput, RecommendationResult, SellerInfo, ClientDetails } from '../../types';
 import { usePlans } from '../../contexts/PlanContext';
@@ -36,43 +36,31 @@ const ClientePanel: React.FC<ClientePanelProps> = ({ sellerInfo = defaultSellerI
 
   const [results, setResults] = useState<RecommendationResult | null>(null);
   const [error, setError] = useState<string>('');
-  const initialLoadHandled = React.useRef(false);
-
+  
   useEffect(() => {
-    // Ensure this runs only once and that plans are loaded
-    if (initialLoadHandled.current || activePlans.length === 0) {
-      return;
-    }
-
+    // This effect runs only on the client after mount
     const searchParams = new URLSearchParams(window.location.search);
-    const autoId = searchParams.get('autoSolicitadoId');
-    const capital = searchParams.get('capitalCliente');
-    const objetivo = searchParams.get('cuotaObjetivo');
-    const source = searchParams.get('source');
+    if (searchParams.has('autoSolicitadoId')) {
+      const autoId = searchParams.get('autoSolicitadoId');
+      const capital = searchParams.get('capitalCliente');
+      const objetivo = searchParams.get('cuotaObjetivo');
 
-    if (source === 'whatsapp_share') {
-      console.log('TRACKING: Presupuesto abierto desde un enlace de WhatsApp.');
+      if (autoId && capital && objetivo && activePlans.some(p => p.id === autoId)) {
+        const newClientInput: ClientInput = {
+          autoSolicitadoId: autoId,
+          capitalCliente: parseFloat(capital) || 0,
+          cuotaObjetivo: parseFloat(objetivo) || 0,
+        };
+
+        setClientInput(newClientInput);
+        const recommendation = recommend(newClientInput, activePlans, params);
+        setResults(recommendation);
+
+        // Clean up URL to avoid re-triggering on refresh
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
     }
-
-    if (autoId && capital && objetivo && activePlans.some(p => p.id === autoId)) {
-      initialLoadHandled.current = true; // Mark as handled
-
-      const newClientInput: ClientInput = {
-        autoSolicitadoId: autoId,
-        capitalCliente: parseFloat(capital) || 0,
-        cuotaObjetivo: parseFloat(objetivo) || 0,
-      };
-
-      setClientInput(newClientInput);
-
-      // Directly calculate and set results with the new input
-      const recommendation = recommend(newClientInput, activePlans, params);
-      setResults(recommendation);
-
-      // Clean up URL to avoid re-triggering on refresh
-      window.history.replaceState({}, document.title, window.location.pathname);
-    }
-  }, [activePlans, params]); // Depend on activePlans and params
+  }, [activePlans, params]); // Depend on activePlans to ensure they are loaded
 
   const selectedPlan = useMemo(() => {
     return plans.find(p => p.id === clientInput.autoSolicitadoId);
@@ -88,7 +76,7 @@ const ClientePanel: React.FC<ClientePanelProps> = ({ sellerInfo = defaultSellerI
       setError('Por favor, seleccione un vehículo.');
       return;
     }
-    if (clientInput.capitalCliente <= 0 || clientInput.cuotaObjetivo <= 0) {
+    if (clientInput.capitalCliente < 0 || clientInput.cuotaObjetivo <= 0) {
       setError('Por favor, ingrese un capital y cuota objetivo válidos.');
       return;
     }

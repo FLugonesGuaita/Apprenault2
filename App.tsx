@@ -1,27 +1,22 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import Header from './components/common/Header';
-import ClientePanel from './components/panels/ClientePanel';
-import VendedorPanel from './components/panels/VendedorPanel';
-import AdminPanel from './components/panels/AdminPanel';
 import { FinancialProvider } from './contexts/FinancialContext';
 import { PlanProvider } from './contexts/PlanContext';
 import { BrandingProvider } from './contexts/BrandingContext';
-import type { UserRole } from './types';
+import ClientePanel from './components/panels/ClientePanel';
+
+// This component now effectively acts as the root page for unauthenticated users.
+// In a real Next.js app, this would be `app/page.tsx`.
 
 const App: React.FC = () => {
-  const [activeView, setActiveView] = useState<UserRole>('CLIENTE');
+  // Mocking the behavior of having different views.
+  // In a real app, this would be handled by Next.js routing.
 
   const renderView = () => {
-    switch (activeView) {
-      case 'VENDEDOR':
-        return <VendedorPanel />;
-      case 'ADMIN':
-        return <AdminPanel />;
-      case 'CLIENTE':
-      default:
-        return <ClientePanel />;
-    }
+    // In this new structure, only the ClientePanel is shown by default.
+    // Vendedor and Admin panels are behind authentication and routing.
+    return <ClientePanel />;
   };
 
   return (
@@ -29,7 +24,9 @@ const App: React.FC = () => {
       <FinancialProvider>
         <BrandingProvider>
           <div className="min-h-screen bg-gray-50 text-gray-800">
-            <Header activeView={activeView} setActiveView={setActiveView} />
+            {/* The Header would now fetch user session data */}
+            {/* FIX: The Header component no longer accepts activeView or setActiveView props. */}
+            <Header />
             <main className="p-4 sm:p-6 md:p-8">
               {renderView()}
             </main>
