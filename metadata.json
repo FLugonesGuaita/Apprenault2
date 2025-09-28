@@ -1,0 +1,5 @@
+{
+  "name": "Renault Plan Rombo",
+  "description": "Aplicación web para calcular y comparar financiaciones directo de fábrica de Renault (Plan Rombo), préstamos personales y créditos UVA. Incluye una calculadora para clientes, un panel para vendedores y un módulo de administración.",
+  "requestFramePermissions": []
+}
