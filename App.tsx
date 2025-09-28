@@ -1,22 +1,59 @@
-
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import type { Session } from '@supabase/supabase-js';
 import Header from './components/common/Header';
 import { FinancialProvider } from './contexts/FinancialContext';
 import { PlanProvider } from './contexts/PlanContext';
 import { BrandingProvider } from './contexts/BrandingContext';
 import ClientePanel from './components/panels/ClientePanel';
-
-// This component now effectively acts as the root page for unauthenticated users.
-// In a real Next.js app, this would be `app/page.tsx`.
+import VendedorPanel from './components/panels/VendedorPanel';
+import AdminPanel from './components/panels/AdminPanel';
+import LoginPage from './components/auth/LoginPage';
+import AccessDenied from './components/common/AccessDenied';
+import { supabase } from './lib/supabase/client';
+import type { UserRole } from './types';
 
 const App: React.FC = () => {
-  // Mocking the behavior of having different views.
-  // In a real app, this would be handled by Next.js routing.
+  const [session, setSession] = useState<Session | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      setLoading(false);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   const renderView = () => {
-    // In this new structure, only the ClientePanel is shown by default.
-    // Vendedor and Admin panels are behind authentication and routing.
-    return <ClientePanel />;
+    if (loading) {
+      return <div className="text-center p-8">Cargando...</div>;
+    }
+
+    const path = window.location.pathname;
+    const userRole = (session?.user?.user_metadata?.role as UserRole) || 'CLIENTE';
+
+    switch (path) {
+      case '/login':
+        return <LoginPage />;
+      case '/vendedor':
+        if (userRole === 'VENDEDOR' || userRole === 'ADMIN') {
+          return <VendedorPanel />;
+        }
+        return <AccessDenied />;
+      case '/admin':
+        if (userRole === 'ADMIN') {
+          return <AdminPanel />;
+        }
+        return <AccessDenied />;
+      case '/':
+      default:
+        return <ClientePanel />;
+    }
   };
 
   return (
@@ -24,8 +61,6 @@ const App: React.FC = () => {
       <FinancialProvider>
         <BrandingProvider>
           <div className="min-h-screen bg-gray-50 text-gray-800">
-            {/* The Header would now fetch user session data */}
-            {/* FIX: The Header component no longer accepts activeView or setActiveView props. */}
             <Header />
             <main className="p-4 sm:p-6 md:p-8">
               {renderView()}

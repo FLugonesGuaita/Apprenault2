@@ -1,28 +1,28 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import type { Admin, Record } from 'pocketbase';
-import { pb } from '../../lib/pocketbase/client';
+import type { Session } from '@supabase/supabase-js';
+import { supabase } from '../../lib/supabase/client';
 import { RenaultLogo } from '../icons/RenaultLogo';
 import type { UserRole } from '../../types';
 import LogoutButton from './LogoutButton';
 
 const Header = () => {
-  const [user, setUser] = useState<Record | Admin | null>(pb.authStore.model);
+  const [session, setSession] = useState<Session | null>(null);
 
   useEffect(() => {
-    // Escucha cambios en el estado de autenticación y actualiza el componente.
-    const unsubscribe = pb.authStore.onChange(() => {
-      setUser(pb.authStore.model);
-    }, true); // El 'true' invoca el callback inmediatamente
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
 
-    return () => {
-      unsubscribe();
-    };
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
   
-  // Asumimos que el rol está guardado en un campo 'role' del modelo de usuario
-  const userRole = user ? (user as any).role as UserRole : 'CLIENTE';
+  const userRole = (session?.user?.user_metadata?.role as UserRole) || 'CLIENTE';
 
   const navItems: { role: UserRole, label: string, href: string }[] = [
     { role: 'CLIENTE', label: 'Cliente', href: '/' },
@@ -32,7 +32,7 @@ const Header = () => {
     navItems.push({ role: 'VENDEDOR', label: 'Vendedor', href: '/vendedor' });
   }
   if (userRole === 'ADMIN') {
-    navItems.push({ role: 'ADMIN', label: 'Admin', href: '/admin/vendedores' });
+    navItems.push({ role: 'ADMIN', label: 'Admin', href: '/admin' });
   }
 
   return (
@@ -53,7 +53,7 @@ const Header = () => {
                 {item.label}
               </a>
             ))}
-            {pb.authStore.isValid && user ? (
+            {session ? (
               <LogoutButton />
             ) : (
               <a href="/login" className="px-3 py-2 rounded-md text-sm font-medium bg-renault-yellow text-renault-dark">
