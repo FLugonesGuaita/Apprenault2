@@ -1,5 +1,5 @@
 
-import type { Plan, CapitalApplicationResult, FinancialParams } from '../types';
+import type { Plan, CapitalApplicationResult, FinancialParams } from '../types.ts';
 
 /**
  * Aplica el capital del cliente a una financiación directa de fábrica.

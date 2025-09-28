@@ -1,16 +1,16 @@
 'use client';
 import React, { useState, useMemo, useEffect } from 'react';
-import type { Plan, ClientInput, RecommendationResult, SellerInfo, ClientDetails } from '../../types';
-import { usePlans } from '../../contexts/PlanContext';
-import { useFinancialParams } from '../../contexts/FinancialContext';
-import { recommend } from '../../services/recommendationService';
-import Card from '../common/Card';
-import Input from '../common/Input';
-import Select from '../common/Select';
-import Button from '../common/Button';
-import ResultsDisplay from '../results/ResultsDisplay';
-import { formatCurrency } from '../../utils/formatters';
-import Alert from '../common/Alert';
+import type { Plan, ClientInput, RecommendationResult, SellerInfo, ClientDetails } from '../../types.ts';
+import { usePlans } from '../../contexts/PlanContext.tsx';
+import { useFinancialParams } from '../../contexts/FinancialContext.tsx';
+import { recommend } from '../../services/recommendationService.ts';
+import Card from '../common/Card.tsx';
+import Input from '../common/Input.tsx';
+import Select from '../common/Select.tsx';
+import Button from '../common/Button.tsx';
+import ResultsDisplay from '../results/ResultsDisplay.tsx';
+import { formatCurrency } from '../../utils/formatters.ts';
+import Alert from '../common/Alert.tsx';
 
 const defaultSellerInfo: SellerInfo = {
   name: 'Renault Lepic - Ventas Online',

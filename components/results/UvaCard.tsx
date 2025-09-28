@@ -1,7 +1,7 @@
 import React from 'react';
-import Card from '../common/Card';
-import { formatCurrency } from '../../utils/formatters';
-import type { UvaResult } from '../../types';
+import Card from '../common/Card.tsx';
+import { formatCurrency } from '../../utils/formatters.ts';
+import type { UvaResult } from '../../types.ts';
 
 interface UvaCardProps {
   resultado: UvaResult;

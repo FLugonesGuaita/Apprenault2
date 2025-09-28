@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { supabase } from '../../lib/supabase/client';
-import Card from '../common/Card';
-import Input from '../common/Input';
-import Button from '../common/Button';
-import Alert from '../common/Alert';
-import { resolvePath } from '../../utils/path';
+import { supabase } from '../../lib/supabase/client.ts';
+import Card from '../common/Card.tsx';
+import Input from '../common/Input.tsx';
+import Button from '../common/Button.tsx';
+import Alert from '../common/Alert.tsx';
+import { resolvePath } from '../../utils/path.ts';
 
 const LoginPage: React.FC = () => {
   const [isLogin, setIsLogin] = useState(true);

@@ -1,10 +1,10 @@
 
 import React, { useState } from 'react';
-import ClientePanel from './ClientePanel';
-import Card from '../common/Card';
-import Input from '../common/Input';
-import type { SellerInfo, ClientDetails } from '../../types';
-import { useLocalStorage } from '../../hooks/useLocalStorage';
+import ClientePanel from './ClientePanel.tsx';
+import Card from '../common/Card.tsx';
+import Input from '../common/Input.tsx';
+import type { SellerInfo, ClientDetails } from '../../types.ts';
+import { useLocalStorage } from '../../hooks/useLocalStorage.ts';
 
 const VendedorPanel: React.FC = () => {
   const [sellerInfo, setSellerInfo] = useLocalStorage<SellerInfo>('renault-seller-info', {

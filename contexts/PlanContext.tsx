@@ -1,8 +1,8 @@
 
 import React, { createContext, useContext, useState } from 'react';
-import { useLocalStorage } from '../hooks/useLocalStorage';
-import type { Plan } from '../types';
-import { INITIAL_PLANS } from '../constants';
+import { useLocalStorage } from '../hooks/useLocalStorage.ts';
+import type { Plan } from '../types.ts';
+import { INITIAL_PLANS } from '../constants.ts';
 
 interface PlanContextType {
   plans: Plan[];

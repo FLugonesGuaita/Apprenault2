@@ -1,15 +1,16 @@
 'use client';
 import React, { useState } from 'react';
-import type { RecommendationResult, ClientInput, SellerInfo, ClientDetails } from '../../types';
-import PlanAhorroCard from './PlanAhorroCard';
-import PrendarioCard from './PrendarioCard';
-import UvaCard from './UvaCard';
-import Button from '../common/Button';
-import { useBranding } from '../../contexts/BrandingContext';
-import { WhatsAppIcon } from '../icons/WhatsAppIcon';
-import Alert from '../common/Alert';
+import type { RecommendationResult, ClientInput, SellerInfo, ClientDetails, PrendarioResult } from '../../types.ts';
+import PlanAhorroCard from './PlanAhorroCard.tsx';
+import PrendarioCard from './PrendarioCard.tsx';
+import UvaCard from './UvaCard.tsx';
+import Button from '../common/Button.tsx';
+import { useBranding } from '../../contexts/BrandingContext.tsx';
+import { WhatsAppIcon } from '../icons/WhatsAppIcon.tsx';
+import Alert from '../common/Alert.tsx';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { formatCurrency } from '../../utils/formatters.ts';
 
 interface ResultsDisplayProps {
   results: RecommendationResult;
@@ -27,7 +28,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results, clientInput, s
   const showPlanSolicitado = planSolicitado && (!mejorPlan || mejorPlan.plan.id !== planSolicitado.plan.id);
   const showMejorPlanAlternativo = mejorPlan && planSolicitado && mejorPlan.plan.id !== planSolicitado.plan.id;
 
-  const generatePDFDoc = (): jsPDF | null => {
+  const generatePDFDoc = (prendarioResults: PrendarioResult[]): jsPDF | null => {
     // PDF Generation logic remains largely the same, but now uses imported jsPDF
     const budgetToPrint = planSolicitado;
     if (!budgetToPrint) return null;
@@ -39,7 +40,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results, clientInput, s
     
     autoTable(doc, {
         head: [['Plazo', 'Cuota Mensual Fija']],
-        body: alternativasPrendario.map(p => [ `${p.plazo} meses`, 'placeholder' ]),
+        body: prendarioResults.map(p => [ `${p.plazo} meses`, formatCurrency(p.cuota) ]),
     });
 
 
@@ -47,7 +48,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results, clientInput, s
   };
 
   const handleDownloadPDF = () => {
-    const doc = generatePDFDoc();
+    const doc = generatePDFDoc(alternativasPrendario);
     if (doc && planSolicitado) {
       doc.save(`presupuesto-renault-${planSolicitado.plan.modelo.replace(/\s/g, '_')}.pdf`);
     }

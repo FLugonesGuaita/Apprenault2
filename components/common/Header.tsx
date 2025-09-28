@@ -2,11 +2,11 @@
 
 import React, { useState, useEffect } from 'react';
 import type { Session } from '@supabase/supabase-js';
-import { supabase } from '../../lib/supabase/client';
-import { RenaultLogo } from '../icons/RenaultLogo';
-import type { UserRole } from '../../types';
-import LogoutButton from './LogoutButton';
-import { resolvePath } from '../../utils/path';
+import { supabase } from '../../lib/supabase/client.ts';
+import { RenaultLogo } from '../icons/RenaultLogo.tsx';
+import type { UserRole } from '../../types.ts';
+import LogoutButton from './LogoutButton.tsx';
+import { resolvePath } from '../../utils/path.ts';
 
 const Header = () => {
   const [session, setSession] = useState<Session | null>(null);

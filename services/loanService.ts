@@ -1,5 +1,5 @@
 
-import type { FinancialParams, PrendarioResult, UvaResult, UvaScenario } from '../types';
+import type { FinancialParams, PrendarioResult, UvaResult, UvaScenario } from '../types.ts';
 
 /**
  * Calcula la cuota de un préstamo usando el sistema francés.

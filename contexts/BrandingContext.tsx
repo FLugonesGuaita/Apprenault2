@@ -1,6 +1,6 @@
 
 import React, { createContext, useContext } from 'react';
-import { useLocalStorage } from '../hooks/useLocalStorage';
+import { useLocalStorage } from '../hooks/useLocalStorage.ts';
 
 interface BrandingContextType {
   logo: string | null;

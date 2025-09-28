@@ -1,7 +1,7 @@
 
-import type { Plan, ClientInput, FinancialParams, RecommendationResult, PlanAhorroPresupuesto } from '../types';
-import { aplicarCapital, calcularCuotaEstimada } from './calculationService';
-import { simularPrendario, simularUVA } from './loanService';
+import type { Plan, ClientInput, FinancialParams, RecommendationResult, PlanAhorroPresupuesto } from '../types.ts';
+import { aplicarCapital, calcularCuotaEstimada } from './calculationService.ts';
+import { simularPrendario, simularUVA } from './loanService.ts';
 
 /**
  * Genera un presupuesto detallado para una financiación directa de fábrica.

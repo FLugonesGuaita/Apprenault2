@@ -1,10 +1,10 @@
 
 import React from 'react';
-import Card from '../common/Card';
-import Badge from '../common/Badge';
-import Alert from '../common/Alert';
-import { formatCurrency } from '../../utils/formatters';
-import type { PlanAhorroPresupuesto } from '../../types';
+import Card from '../common/Card.tsx';
+import Badge from '../common/Badge.tsx';
+import Alert from '../common/Alert.tsx';
+import { formatCurrency } from '../../utils/formatters.ts';
+import type { PlanAhorroPresupuesto } from '../../types.ts';
 
 interface PlanAhorroCardProps {
   presupuesto: PlanAhorroPresupuesto;

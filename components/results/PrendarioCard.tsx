@@ -1,7 +1,7 @@
 import React from 'react';
-import Card from '../common/Card';
-import { formatCurrency } from '../../utils/formatters';
-import type { PrendarioResult } from '../../types';
+import Card from '../common/Card.tsx';
+import { formatCurrency } from '../../utils/formatters.ts';
+import type { PrendarioResult } from '../../types.ts';
 
 interface PrendarioCardProps {
   resultados: PrendarioResult[];

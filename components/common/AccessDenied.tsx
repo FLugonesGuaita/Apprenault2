@@ -1,6 +1,6 @@
 import React from 'react';
-import Card from './Card';
-import { resolvePath } from '../../utils/path';
+import Card from './Card.tsx';
+import { resolvePath } from '../../utils/path.ts';
 
 const AccessDenied: React.FC = () => {
   return (

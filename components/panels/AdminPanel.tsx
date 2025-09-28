@@ -1,14 +1,14 @@
 
 import React, { useState, useReducer, ChangeEvent, Fragment } from 'react';
-import Card from '../common/Card';
-import Button from '../common/Button';
-import Input from '../common/Input';
-import { usePlans } from '../../contexts/PlanContext';
-import { useFinancialParams } from '../../contexts/FinancialContext';
-import { useBranding } from '../../contexts/BrandingContext';
-import type { FinancialParams, Plan } from '../../types';
-import { formatCurrency } from '../../utils/formatters';
-import Badge from '../common/Badge';
+import Card from '../common/Card.tsx';
+import Button from '../common/Button.tsx';
+import Input from '../common/Input.tsx';
+import { usePlans } from '../../contexts/PlanContext.tsx';
+import { useFinancialParams } from '../../contexts/FinancialContext.tsx';
+import { useBranding } from '../../contexts/BrandingContext.tsx';
+import type { FinancialParams, Plan } from '../../types.ts';
+import { formatCurrency } from '../../utils/formatters.ts';
+import Badge from '../common/Badge.tsx';
 
 const initialPlanState: Omit<Plan, 'id' | 'activo' | 'marca'> = {
   modelo: '',

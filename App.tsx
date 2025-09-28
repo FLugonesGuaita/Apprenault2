@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import type { Session } from '@supabase/supabase-js';
-import Header from './components/common/Header';
-import { FinancialProvider } from './contexts/FinancialContext';
-import { PlanProvider } from './contexts/PlanContext';
-import { BrandingProvider } from './contexts/BrandingContext';
-import ClientePanel from './components/panels/ClientePanel';
-import VendedorPanel from './components/panels/VendedorPanel';
-import AdminPanel from './components/panels/AdminPanel';
-import LoginPage from './components/auth/LoginPage';
-import AccessDenied from './components/common/AccessDenied';
-import { supabase } from './lib/supabase/client';
-import type { UserRole } from './types';
-import { getAppPath } from './utils/path';
+import Header from './components/common/Header.tsx';
+import { FinancialProvider } from './contexts/FinancialContext.tsx';
+import { PlanProvider } from './contexts/PlanContext.tsx';
+import { BrandingProvider } from './contexts/BrandingContext.tsx';
+import ClientePanel from './components/panels/ClientePanel.tsx';
+import VendedorPanel from './components/panels/VendedorPanel.tsx';
+import AdminPanel from './components/panels/AdminPanel.tsx';
+import LoginPage from './components/auth/LoginPage.tsx';
+import AccessDenied from './components/common/AccessDenied.tsx';
+import { supabase } from './lib/supabase/client.ts';
+import type { UserRole } from './types.ts';
+import { getAppPath } from './utils/path.ts';
 
 const App: React.FC = () => {
   const [session, setSession] = useState<Session | null>(null);

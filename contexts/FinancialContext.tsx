@@ -1,8 +1,8 @@
 
 import React, { createContext, useContext } from 'react';
-import type { FinancialParams } from '../types';
-import { useLocalStorage } from '../hooks/useLocalStorage';
-import { DEFAULT_FINANCIAL_PARAMS } from '../constants';
+import type { FinancialParams } from '../types.ts';
+import { useLocalStorage } from '../hooks/useLocalStorage.ts';
+import { DEFAULT_FINANCIAL_PARAMS } from '../constants.ts';
 
 interface FinancialContextType {
   params: FinancialParams;
