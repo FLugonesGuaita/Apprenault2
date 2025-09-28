@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { supabase } from '../../lib/supabase/client.js';
-import Card from '../common/Card.jsx';
-import Input from '../common/Input.jsx';
-import Button from '../common/Button.jsx';
-import Alert from '../common/Alert.jsx';
+import Card from '../common/Card.js';
+import Input from '../common/Input.js';
+import Button from '../common/Button.js';
+import Alert from '../common/Alert.js';
 import { resolvePath } from '../../utils/path.js';
 
 const LoginPage = () => {

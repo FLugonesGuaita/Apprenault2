@@ -1,15 +1,15 @@
 'use client';
 import React, { useState, useMemo, useEffect } from 'react';
-import { usePlans } from '../../contexts/PlanContext.jsx';
-import { useFinancialParams } from '../../contexts/FinancialContext.jsx';
+import { usePlans } from '../../contexts/PlanContext.js';
+import { useFinancialParams } from '../../contexts/FinancialContext.js';
 import { recommend } from '../../services/recommendationService.js';
-import Card from '../common/Card.jsx';
-import Input from '../common/Input.jsx';
-import Select from '../common/Select.jsx';
-import Button from '../common/Button.jsx';
-import ResultsDisplay from '../results/ResultsDisplay.jsx';
+import Card from '../common/Card.js';
+import Input from '../common/Input.js';
+import Select from '../common/Select.js';
+import Button from '../common/Button.js';
+import ResultsDisplay from '../results/ResultsDisplay.js';
 import { formatCurrency } from '../../utils/formatters.js';
-import Alert from '../common/Alert.jsx';
+import Alert from '../common/Alert.js';
 
 const defaultSellerInfo = {
   name: 'Renault Lepic - Ventas Online',

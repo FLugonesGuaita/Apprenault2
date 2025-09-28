@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase/client.js';
-import { RenaultLogo } from '../icons/RenaultLogo.jsx';
-import LogoutButton from './LogoutButton.jsx';
+import { RenaultLogo } from '../icons/RenaultLogo.js';
+import LogoutButton from './LogoutButton.js';
 import { resolvePath } from '../../utils/path.js';
 
 const Header = () => {

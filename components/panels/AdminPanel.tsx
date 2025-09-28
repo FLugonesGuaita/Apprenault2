@@ -1,12 +1,12 @@
 import React, { useState, useReducer, Fragment } from 'react';
-import Card from '../common/Card.jsx';
-import Button from '../common/Button.jsx';
-import Input from '../common/Input.jsx';
-import { usePlans } from '../../contexts/PlanContext.jsx';
-import { useFinancialParams } from '../../contexts/FinancialContext.jsx';
-import { useBranding } from '../../contexts/BrandingContext.jsx';
+import Card from '../common/Card.js';
+import Button from '../common/Button.js';
+import Input from '../common/Input.js';
+import { usePlans } from '../../contexts/PlanContext.js';
+import { useFinancialParams } from '../../contexts/FinancialContext.js';
+import { useBranding } from '../../contexts/BrandingContext.js';
 import { formatCurrency } from '../../utils/formatters.js';
-import Badge from '../common/Badge.jsx';
+import Badge from '../common/Badge.js';
 
 const initialPlanState = {
   modelo: '',

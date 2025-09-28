@@ -1,14 +1,14 @@
 
 import React, { useState, useEffect } from 'react';
-import Header from './components/common/Header.jsx';
-import { FinancialProvider } from './contexts/FinancialContext.jsx';
-import { PlanProvider } from './contexts/PlanContext.jsx';
-import { BrandingProvider } from './contexts/BrandingContext.jsx';
-import ClientePanel from './components/panels/ClientePanel.jsx';
-import VendedorPanel from './components/panels/VendedorPanel.jsx';
-import AdminPanel from './components/panels/AdminPanel.jsx';
-import LoginPage from './components/auth/LoginPage.jsx';
-import AccessDenied from './components/common/AccessDenied.jsx';
+import Header from './components/common/Header.js';
+import { FinancialProvider } from './contexts/FinancialContext.js';
+import { PlanProvider } from './contexts/PlanContext.js';
+import { BrandingProvider } from './contexts/BrandingContext.js';
+import ClientePanel from './components/panels/ClientePanel.js';
+import VendedorPanel from './components/panels/VendedorPanel.js';
+import AdminPanel from './components/panels/AdminPanel.js';
+import LoginPage from './components/auth/LoginPage.js';
+import AccessDenied from './components/common/AccessDenied.js';
 import { supabase } from './lib/supabase/client.js';
 import { getAppPath } from './utils/path.js';
 

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { supabase } from '../../lib/supabase/client.js';
-import Button from './Button.jsx';
+import Button from './Button.js';
 import { resolvePath } from '../../utils/path.js';
 
 export default function LogoutButton() {

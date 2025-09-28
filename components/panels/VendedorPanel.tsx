@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import ClientePanel from './ClientePanel.jsx';
-import Card from '../common/Card.jsx';
-import Input from '../common/Input.jsx';
+import ClientePanel from './ClientePanel.js';
+import Card from '../common/Card.js';
+import Input from '../common/Input.js';
 import { useLocalStorage } from '../../hooks/useLocalStorage.js';
 
 const VendedorPanel = () => {

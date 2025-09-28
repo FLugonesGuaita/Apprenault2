@@ -1,7 +1,7 @@
 import React from 'react';
-import Card from '../common/Card.jsx';
-import Badge from '../common/Badge.jsx';
-import Alert from '../common/Alert.jsx';
+import Card from '../common/Card.js';
+import Badge from '../common/Badge.js';
+import Alert from '../common/Alert.js';
 import { formatCurrency } from '../../utils/formatters.js';
 
 const PlanAhorroCard = ({ presupuesto, title, isFeatured = false }) => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import Card from '../common/Card.jsx';
+import Card from '../common/Card.js';
 import { formatCurrency } from '../../utils/formatters.js';
 
 const UvaCard = ({ resultado }) => {
