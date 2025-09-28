@@ -1,5 +1,6 @@
 import React from 'react';
 import Card from './Card';
+import { resolvePath } from '../../utils/path';
 
 const AccessDenied: React.FC = () => {
   return (
@@ -11,7 +12,7 @@ const AccessDenied: React.FC = () => {
             Si crees que esto es un error, por favor contacta al administrador.
           </p>
           <a
-            href="/"
+            href={resolvePath('/')}
             className="inline-block px-6 py-2 text-sm font-medium text-white bg-renault-dark rounded-md hover:bg-renault-gray transition-colors"
           >
             Volver al Inicio

@@ -3,6 +3,7 @@
 import React from 'react';
 import { supabase } from '../../lib/supabase/client';
 import Button from './Button';
+import { resolvePath } from '../../utils/path';
 
 export default function LogoutButton() {
   const handleSignOut = async () => {
@@ -10,7 +11,7 @@ export default function LogoutButton() {
     if (error) {
       console.error('Error al cerrar sesión:', error);
     } else {
-      window.location.href = '/';
+      window.location.href = resolvePath('/');
     }
   };
 

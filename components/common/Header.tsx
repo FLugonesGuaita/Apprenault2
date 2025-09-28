@@ -6,6 +6,7 @@ import { supabase } from '../../lib/supabase/client';
 import { RenaultLogo } from '../icons/RenaultLogo';
 import type { UserRole } from '../../types';
 import LogoutButton from './LogoutButton';
+import { resolvePath } from '../../utils/path';
 
 const Header = () => {
   const [session, setSession] = useState<Session | null>(null);
@@ -25,21 +26,21 @@ const Header = () => {
   const userRole = (session?.user?.user_metadata?.role as UserRole) || 'CLIENTE';
 
   const navItems: { role: UserRole, label: string, href: string }[] = [
-    { role: 'CLIENTE', label: 'Cliente', href: '/' },
+    { role: 'CLIENTE', label: 'Cliente', href: resolvePath('/') },
   ];
 
   if (userRole === 'VENDEDOR' || userRole === 'ADMIN') {
-    navItems.push({ role: 'VENDEDOR', label: 'Vendedor', href: '/vendedor' });
+    navItems.push({ role: 'VENDEDOR', label: 'Vendedor', href: resolvePath('/vendedor') });
   }
   if (userRole === 'ADMIN') {
-    navItems.push({ role: 'ADMIN', label: 'Admin', href: '/admin' });
+    navItems.push({ role: 'ADMIN', label: 'Admin', href: resolvePath('/admin') });
   }
 
   return (
     <header className="bg-renault-dark shadow-md">
       <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <a href="/" className="flex items-center">
+          <a href={resolvePath('/')} className="flex items-center">
             <RenaultLogo className="h-8 w-auto" />
             <span className="text-white ml-3 text-xl font-bold">Plan Rombo</span>
           </a>
@@ -56,7 +57,7 @@ const Header = () => {
             {session ? (
               <LogoutButton />
             ) : (
-              <a href="/login" className="px-3 py-2 rounded-md text-sm font-medium bg-renault-yellow text-renault-dark">
+              <a href={resolvePath('/login')} className="px-3 py-2 rounded-md text-sm font-medium bg-renault-yellow text-renault-dark">
                 Iniciar Sesión
               </a>
             )}

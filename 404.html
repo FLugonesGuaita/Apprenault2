@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Renault Plan Rombo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              renault: {
+                yellow: '#FFD100',
+                dark: '#222222',
+                gray: '#333333',
+              },
+            },
+          },
+        },
+      }
+    </script>
+    <script type="importmap">
+      {
+        "imports": {
+          "react": "https://esm.sh/react@18.2.0",
+          "react-dom": "https://esm.sh/react-dom@18.2.0",
+          "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+          "react/": "https://esm.sh/react@18.2.0/",
+          "react-dom/": "https://esm.sh/react-dom@18.2.0/",
+          "jspdf": "https://esm.sh/jspdf@2.5.1",
+          "jspdf-autotable": "https://esm.sh/jspdf-autotable@3.8.2",
+          "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@2"
+        }
+      }
+    </script>
+    <script>
+      // Redirección para Single Page Apps (SPA) en GitHub Pages
+      // Captura la ruta a la que se intentó acceder (ej. /repo/vendedor)
+      // y la guarda en sessionStorage. Luego, redirige a la raíz de la app.
+      // El script en App.tsx leerá este valor y ajustará la ruta.
+      const path = window.location.pathname;
+      const search = window.location.search;
+      const hash = window.location.hash;
+      const fullPath = path + search + hash;
+
+      sessionStorage.setItem('redirectPath', fullPath);
+
+      // Determina la ruta base para la redirección.
+      // ej. /mi-repo/ruta/pagina -> redirige a /mi-repo/
+      const pathSegments = path.split('/').filter(Boolean);
+      const basePath = pathSegments.length > 0 ? `/${pathSegments[0]}` : '';
+      
+      window.location.replace(basePath + '/');
+    </script>
+  </head>
+  <body class="bg-gray-100 dark:bg-renault-dark text-renault-dark dark:text-gray-200">
+    <!-- El contenido del body no es crucial ya que la redirección es casi instantánea -->
+    <div id="root">
+        <p style="text-align: center; padding-top: 2rem;">Redirigiendo...</p>
+    </div>
+  </body>
+</html>

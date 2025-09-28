@@ -50,23 +50,34 @@ Esta aplicación depende de Supabase para la autenticación y (en un futuro) par
 4.  Copia la **URL del Proyecto** y la clave pública **anon (public)**.
 5.  Abre el archivo `lib/supabase/client.ts` en este proyecto y reemplaza los valores de `supabaseUrl` y `supabaseAnonKey` con los tuyos.
 
-### 2. Creación de Usuarios de Demo
+### 2. Creación y Configuración de Roles de Demo (Método SQL)
 
-Para poder probar los roles de Vendedor y Administrador, debes crear los usuarios en tu panel de Supabase.
+La interfaz de Supabase para editar metadatos de usuario ha cambiado. El método más fiable para asignar roles es a través del **Editor SQL**.
 
-1.  En tu proyecto de Supabase, ve a la sección **Authentication**.
-2.  Haz clic en **"Add user"** para crear los siguientes dos usuarios:
-    *   **Usuario Administrador:**
-        *   **Email:** `admin@demo.com`
-        *   **Password:** `Interact2`
-    *   **Usuario Vendedor:**
-        *   **Email:** `lugones@demo.com`
-        *   **Password:** `150519`
-3.  Una vez creados, haz clic en cada usuario y ve a la sección **"User Metadata"**.
-    *   Para `admin@demo.com`, agrega: `{ "role": "ADMIN" }`
-    *   Para `lugones@demo.com`, agrega: `{ "role": "VENDEDOR" }`
+1.  **Crear los usuarios:**
+    *   En tu proyecto de Supabase, ve a la sección **Authentication > Users**.
+    *   Haz clic en **"Add user"** para crear los siguientes dos usuarios:
+        *   **Email:** `admin@demo.com`, **Password:** `Interact2`
+        *   **Email:** `lugones@demo.com`, **Password:** `150519`
 
-¡Listo! Con esto, el sistema de roles y login funcionará correctamente.
+2.  **Asignar roles con SQL:**
+    *   En el menú lateral de Supabase, ve al **SQL Editor** (ícono de base de datos).
+    *   Haz clic en **"+ New query"**.
+    *   Copia el siguiente comando para el **usuario administrador**, pégalo en el editor y haz clic en **"RUN"**.
+      ```sql
+      update auth.users
+      set raw_user_meta_data = raw_user_meta_data || '{"role": "ADMIN"}'
+      where email = 'admin@demo.com';
+      ```
+    *   Crea una nueva consulta (**"+ New query"**).
+    *   Copia el siguiente comando para el **usuario vendedor**, pégalo y haz clic en **"RUN"**.
+      ```sql
+      update auth.users
+      set raw_user_meta_data = raw_user_meta_data || '{"role": "VENDEDOR"}'
+      where email = 'lugones@demo.com';
+      ```
+
+¡Listo! Con estos dos comandos, los roles quedarán correctamente asignados y el sistema de login funcionará como se espera.
 
 ### 3. Ejecución Local
 
@@ -87,7 +98,7 @@ Este proyecto no necesita un proceso de compilación (`build`). Puedes ejecutarl
 
 ## 🌐 Despliegue en GitHub Pages
 
-Puedes desplegar una versión de demo de esta aplicación de forma gratuita usando GitHub Pages.
+Puedes desplegar una versión de demo de esta aplicación de forma gratuita usando GitHub Pages. El código ya está preparado para funcionar sin configuración extra.
 
 1.  **Crea un repositorio en GitHub** y sube todos los archivos del proyecto.
 2.  En tu repositorio de GitHub, ve a la pestaña **"Settings"**.
@@ -96,4 +107,9 @@ Puedes desplegar una versión de demo de esta aplicación de forma gratuita usan
 5.  Elige la rama `main` (o la que estés usando) y la carpeta `/ (root)`.
 6.  Haz clic en **"Save"**.
 
-GitHub tardará uno o dos minutos en desplegar tu sitio. Una vez listo, verás la URL pública en la misma página de configuración. ¡Cópiala y pégala en la sección "Demo en Vivo" de este README!
+GitHub tardará uno o dos minutos en desplegar tu sitio. Una vez listo, verás la URL pública en la misma página de configuración.
+
+**¿Por qué funciona?**
+Este proyecto incluye soluciones para los dos problemas comunes de las aplicaciones de una sola página (SPA) en GitHub Pages:
+1.  **Rutas Relativas:** Todas las rutas a archivos y enlaces de navegación se ajustan automáticamente para funcionar dentro del subdirectorio de tu repositorio.
+2.  **Enrutamiento del Lado del Cliente:** Se ha incluido un archivo `404.html` que redirige cualquier solicitud de una página desconocida (como `/vendedor`) de vuelta a la aplicación principal, permitiendo que el enrutador de React maneje la vista correcta.

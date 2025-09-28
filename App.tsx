@@ -11,12 +11,20 @@ import LoginPage from './components/auth/LoginPage';
 import AccessDenied from './components/common/AccessDenied';
 import { supabase } from './lib/supabase/client';
 import type { UserRole } from './types';
+import { getAppPath } from './utils/path';
 
 const App: React.FC = () => {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Handle SPA redirect from 404.html on services like GitHub Pages
+    const redirectPath = sessionStorage.getItem('redirectPath');
+    if (redirectPath) {
+      sessionStorage.removeItem('redirectPath');
+      window.history.replaceState(null, '', redirectPath);
+    }
+    
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setLoading(false);
@@ -33,10 +41,11 @@ const App: React.FC = () => {
     if (loading) {
       return <div className="text-center p-8">Cargando...</div>;
     }
-
-    const path = window.location.pathname;
+    
+    // Use getAppPath to handle running in subdirectories (like GitHub pages)
+    const path = getAppPath(window.location.pathname);
     const userRole = (session?.user?.user_metadata?.role as UserRole) || 'CLIENTE';
-
+    
     switch (path) {
       case '/login':
         return <LoginPage />;
