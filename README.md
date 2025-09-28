@@ -32,7 +32,7 @@ Aplicación web para calcular y comparar financiaciones directo de fábrica de R
 *   **UI/Componentes:** Componentes a medida con clases de TailwindCSS.
 *   **Backend & Autenticación:** [Supabase](https://supabase.com/) (Base de datos PostgreSQL, Autenticación, Roles).
 *   **Generación de PDF:** `jsPDF` y `jspdf-autotable`.
-*   **Sin Bundler:** El proyecto se ejecuta directamente en el navegador usando ES Modules y `importmap`.
+*   **Sin Bundler:** El proyecto se ejecuta directamente en el navegador usando ES Modules, `importmap` y **Babel Standalone** para transpilar TypeScript/JSX en tiempo real.
 
 ---
 

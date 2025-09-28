@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Renault Plan Rombo</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Add Babel Standalone for in-browser JSX/TS transpilation -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script>
       tailwind.config = {
         theme: {
@@ -37,6 +39,7 @@
 </head>
   <body class="bg-gray-100 dark:bg-renault-dark text-renault-dark dark:text-gray-200">
     <div id="root"></div>
-    <script type="module" src="./index.tsx"></script>
+    <!-- Change script type to "text/babel" and add data-type="module" to enable transpilation -->
+    <script type="text/babel" data-type="module" src="./index.tsx"></script>
   </body>
 </html>
